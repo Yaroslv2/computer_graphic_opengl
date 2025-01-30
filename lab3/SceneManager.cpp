@@ -1,57 +1,48 @@
 #include "SceneManager.h"
 
-SceneManager SceneManager::instanse = SceneManager();
+#include <iostream>
 
-SceneManager&
+SceneManager SceneManager::instanse = SceneManager::SceneManager();
+
+SceneManager& 
 SceneManager::getInstanse()
 {
-	return SceneManager::instanse;
+	return instanse;
 }
 
-int
-SceneManager::getCurrentSceneIdx()
+void 
+SceneManager::changeScene(Scene* scene)
 {
-	return currentSceneIdx;
+	if (activeScene != nullptr) 
+	{
+		activeScene->onExit();
+		delete activeScene;
+	}
+	activeScene = scene;
+	scene->onEntry();
 }
 
-void
-SceneManager::setCurrentSceneIdx(int sceneIdx)
+void 
+SceneManager::processEvents(Event* event)
 {
-	currentSceneIdx = sceneIdx;
-	scene->updateSceneContent();
+	if (activeScene == nullptr)
+		return;
+
+	activeScene->processEvents(event);
 }
 
-int
-SceneManager::getCurrentSubSceneIdx()
+void 
+SceneManager::render()
 {
-	return currentSubSceneIdx;
+	if (activeScene == nullptr)
+		return;
+	activeScene->render();
 }
-
-void
-SceneManager::setCurrentSubSceneIdx(int subSceneIdx)
-{
-	currentSubSceneIdx = subSceneIdx;
-	scene->updateSceneContent();
-}
-
-Scene*&
-SceneManager::getScene()
-{
-	return scene;
-}
-
-void
-SceneManager::setScene(Scene*& scene)
-{
-	this->scene = scene;
-}
-
-SceneManager::SceneManager() : currentSceneIdx(0),
-currentSubSceneIdx(0),
-scene(new Scene())
-{}
 
 SceneManager::~SceneManager()
 {
-	delete scene;
+	activeScene->onExit();
+	delete activeScene;
 }
+
+SceneManager::SceneManager() : activeScene(nullptr) {}

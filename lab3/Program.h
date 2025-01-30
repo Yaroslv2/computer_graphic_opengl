@@ -1,17 +1,38 @@
 #pragma once
 
-#include "Window.h"
-#include "Scene.h"
+#include "opengl_libs.h"
 
+/// <summary>
+/// Класс, отвечающий за жизненный цикл программы
+/// </summary>
 class Program
 {
 public:
+	/// <summary>
+	/// Конструктор, инициализирует библиотеки
+	/// </summary>
 	Program();
 	/// <summary>
-	/// run program
+	/// Деструктор, закрывает библиотеки
+	/// </summary>
+	~Program();
+	/// <summary>
+	/// Проверка, была ли запущена программа
+	/// </summary>
+	/// <returns>true если программа запущена, false если нет</returns>
+	bool isRunning();
+	/// <summary>
+	/// запуск работы программы
 	/// </summary>
 	void run();
 private:
-	Window& window;
+	/// <summary>
+	/// Была ли запущена программа
+	/// </summary>
+	bool running;
+	/// <summary>
+	/// Окно
+	/// </summary>
+	GLFWwindow* window;
 };
 

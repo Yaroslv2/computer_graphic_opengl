@@ -1,27 +1,34 @@
 #pragma once
-#include "Scene.h"
 
+#include "Scene.h"
+#include "Events.hpp"
+
+/// <summary>
+/// Синглтон. Отвечает за работу со сценами извне
+/// </summary>
 class SceneManager
 {
 public:
 	static SceneManager& getInstanse();
-
-	int getCurrentSceneIdx();
-	void setCurrentSceneIdx(int sceneIdx);
-
-	int getCurrentSubSceneIdx();
-	void setCurrentSubSceneIdx(int subSceneIdx);
-
-	Scene*& getScene();
-	void setScene(Scene*& scene);
-
+	/// <summary>
+	/// Открытие новой сцены
+	/// </summary>
+	/// <param name="scene">Указатель на новую сцену, которую необходимо открыть</param>
+	void changeScene(Scene* scene);
+	/// <summary>
+	/// Функция обработки событй, временно недоступно
+	/// </summary>
+	void processEvents(Event* event);
+	/// <summary>
+	/// Функция отрисовки сцены
+	/// </summary>
+	void render();
 	~SceneManager();
 private:
 	SceneManager();
 	static SceneManager instanse;
-
-	int currentSceneIdx;
-	int currentSubSceneIdx;
-	Scene* scene;
+	/// <summary>
+	/// Активная сцена
+	/// </summary>
+	Scene* activeScene;
 };
-

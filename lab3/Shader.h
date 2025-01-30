@@ -1,15 +1,23 @@
 #pragma once
-#include "GLUtils.h"
+
+#include <string>
+
+#include "opengl_libs.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 class Shader
 {
-private:
-	GLuint shaderId = -1;
 public:
-	Shader();
+	Shader(const std::string vertexShaderPath, const std::string fragmentShaderPath);
 	~Shader();
 
-	void Use();
-	void UniformMatrix(std::string name, Matrix4x4 matrix);
-	void Load(std::string vertexPath, std::string fragmentPath);
+	void use();
+	void setUniformMatrix4f(const std::string& name, glm::mat4& matrix);
+private:
+	GLuint id;
+	
+	GLuint create(const std::string vertexShaderSource, const std::string fragmentShaderSource);
+	std::string loadFromFile(const std::string& filename);
+	GLuint compile(GLuint type, const std::string source);
 };
-

@@ -1,65 +1,67 @@
 #pragma once
 
-#include "libsInclude.h"
 #include <string>
+#include "opengl_libs.h"
 
+/// <summary>
+/// синглтон для получения доступа к окну
+/// </summary>
 class Window
 {
 public:
-	static Window& getInstanse();
-
 	/// <summary>
-	/// Create MyWindow
+	/// Получение синглтона
 	/// </summary>
-	/// <param name="width">window width</param>
-	/// <param name="height">window height</param>
-	/// <param name="title">window title</param>
-	/// <returns>true - window was created, false - smth went wrong</returns>
+	/// <returns>экземпляр синглтона</returns>
+	static Window& getInstance();
+	/// <summary>
+	/// Создание окна
+	/// </summary>
+	/// <param name="width">Ширина</param>
+	/// <param name="height">Высота</param>
+	/// <param name="title">Заголовок</param>
+	/// <returns>true если создано, false если нет</returns>
 	bool createWindow(int width, int height, std::string title);
-
 	/// <summary>
-	/// Get GLFWwindow pointer
+	/// Получение GLFWwindow*
 	/// </summary>
-	/// <returns>pointer of openGL window</returns>
 	GLFWwindow*& getGLFWwindow();
-
 	/// <summary>
-	/// resize window
-	/// </summary>
-	/// <param name="width">new width window</param>
-	/// <param name="height">new height window</param>
-	void resize(int width, int height);
-
-	/// <summary>
-	/// close window
+	/// Закрытие окна
 	/// </summary>
 	void close();
-
 	/// <summary>
-	/// chacking whether the window needs to be closed
+	/// Проверка, закрыто ли окно
 	/// </summary>
-	/// <returns>boolean</returns>
-	bool isWindowClosed();
-
+	/// <returns>true если да, false если нет</returns>
+	bool isClosed();
 	/// <summary>
-	/// set window active
+	/// Установка контекста на окно и callback
 	/// </summary>
 	void setActive();
-
+	/// <summary>
+	/// Получение высоты окна
+	/// </summary>
 	int getHeight();
-
+	/// <summary>
+	/// Получение ширины окна
+	/// </summary>
 	int getWidth();
+	void resize(int height, int width);
+
+	~Window();
 private:
-	// opengl window
-	GLFWwindow* window;
-	// window height
-	int height;
-	// window width
-	int width;
-	// window title
-	std::string title;
+	/// <summary>
+	/// синглтон
+	/// </summary>
+	static Window instanse;
 
 	Window();
-	static Window instanse;
+	
+	int height; /// Высота
+	int width; /// Ширина
+	std::string title; /// Заголовок
+	GLFWwindow* window; /// Указатель для работы с GLFW
+
 };
 
